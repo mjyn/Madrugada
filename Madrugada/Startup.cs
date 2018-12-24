@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Madrugada.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 namespace Madrugada
 {
@@ -36,8 +37,13 @@ namespace Madrugada
             });
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                options.UseMySql(
+                    Configuration.GetConnectionString("DefaultConnection"),
+                    mySqlOptions =>
+                    {
+                        mySqlOptions.ServerVersion(new Version(10, 2, 19), ServerType.MariaDb);
+                    }
+                    ));
             services.AddDefaultIdentity<IdentityUser>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
