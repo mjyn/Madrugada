@@ -20,6 +20,10 @@ namespace Madrugada.Models
         public string Cover { get; set; }
         public string OfficialHomepage { get; set; }
 
+        [InverseProperty("Work")]
+        public List<Location> Locations { get; set; }
+
+
         public int CompanyId { get; set; }
         [ForeignKey("CompanyId")]
         public Company Company { get; set; }

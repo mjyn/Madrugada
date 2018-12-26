@@ -19,6 +19,10 @@ namespace Madrugada.Models
         [ForeignKey("ReplyId")]
         public Message ReplyMessage { get; set; }
 
+        public int? LocationId { get; set; }
+        [ForeignKey("LocationId")]
+        public Location Location { get; set; }
+
         public bool IsIPv6 { get; set; }
         public string IPAddress { get; set; }
     }
