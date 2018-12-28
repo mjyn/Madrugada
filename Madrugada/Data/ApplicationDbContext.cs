@@ -14,9 +14,10 @@ namespace Madrugada.Data
         {
         }
 
-        public DbSet<Message> Messages { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<Work> Works { get; set; }
-
+        public DbSet<Location> Locations { get; set; }
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<Photo> Photos { get; set; }
     }
 }
