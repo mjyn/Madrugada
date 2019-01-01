@@ -35,7 +35,7 @@ namespace Madrugada.Models
         public int StreetViewPitch { get; set; }
 
         [InverseProperty("Location")]
-        public List<Photo> Photos { get; set; }
+        public List<Image> Images { get; set; }
         
         [InverseProperty("Location")]
         public List<Message> Messages { get; set; }
