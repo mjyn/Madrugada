@@ -29,10 +29,10 @@ namespace Madrugada.Models
         public double Longitude { get; set; }
 
         public bool HasStreetView { get; set; }
-        public double StreetViewLatitude { get; set; }
-        public double StreetViewLongitude { get; set; }
-        public int StreetViewHeading { get; set; }
-        public int StreetViewPitch { get; set; }
+        public double? StreetViewLatitude { get; set; }
+        public double? StreetViewLongitude { get; set; }
+        public int? StreetViewHeading { get; set; }
+        public int? StreetViewPitch { get; set; }
 
         [InverseProperty("Location")]
         public List<Image> Images { get; set; }
