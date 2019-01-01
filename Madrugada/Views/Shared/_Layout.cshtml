@@ -1,6 +1,12 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+    <style>
+        /* Set the size of the div element that contains the map */
+        #map {
+            height: 400px; /* The height is 400 pixels */
+        }
+    </style>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Madrugada</title>
@@ -13,7 +19,7 @@
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
               crossorigin="anonymous"
-              integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE="/>
+              integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" />
     </environment>
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
@@ -49,7 +55,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2018 - Madrugada - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2018 - 2019 - Madrugada - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
 

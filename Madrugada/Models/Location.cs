@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -24,6 +25,7 @@ namespace Madrugada.Models
         public string Text { get; set; }
 
         [MaxLength(300)]
+        [DisplayName("地址")]
         public string Address { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }

@@ -36,6 +36,7 @@ namespace Madrugada.Controllers
 
             var location = await _context.Locations
                 .Include(l => l.Work)
+                .Include(l => l.Images).ThenInclude(i => i.CompareImage)
                 .FirstOrDefaultAsync(m => m.LocationId == id);
             if (location == null)
             {
