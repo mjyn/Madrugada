@@ -1,0 +1,90 @@
+﻿@model Madrugada.Models.Location
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Location</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Work)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Work.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Text)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Text)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Latitude)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Latitude)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Longitude)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Longitude)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.HasStreetView)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.HasStreetView)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.StreetViewLatitude)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.StreetViewLatitude)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.StreetViewLongitude)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.StreetViewLongitude)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.StreetViewHeading)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.StreetViewHeading)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.StreetViewPitch)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.StreetViewPitch)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IsPublished)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IsPublished)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.LocationId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

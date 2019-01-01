@@ -1,0 +1,89 @@
+﻿@model Madrugada.Models.Location
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Location</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="LocationId" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WorkId" class="control-label"></label>
+                <select asp-for="WorkId" class="form-control" asp-items="ViewBag.WorkId"></select>
+                <span asp-validation-for="WorkId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Text" class="control-label"></label>
+                <input asp-for="Text" class="form-control" />
+                <span asp-validation-for="Text" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Latitude" class="control-label"></label>
+                <input asp-for="Latitude" class="form-control" />
+                <span asp-validation-for="Latitude" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Longitude" class="control-label"></label>
+                <input asp-for="Longitude" class="form-control" />
+                <span asp-validation-for="Longitude" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="HasStreetView" /> @Html.DisplayNameFor(model => model.HasStreetView)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="StreetViewLatitude" class="control-label"></label>
+                <input asp-for="StreetViewLatitude" class="form-control" />
+                <span asp-validation-for="StreetViewLatitude" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StreetViewLongitude" class="control-label"></label>
+                <input asp-for="StreetViewLongitude" class="form-control" />
+                <span asp-validation-for="StreetViewLongitude" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StreetViewHeading" class="control-label"></label>
+                <input asp-for="StreetViewHeading" class="form-control" />
+                <span asp-validation-for="StreetViewHeading" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StreetViewPitch" class="control-label"></label>
+                <input asp-for="StreetViewPitch" class="form-control" />
+                <span asp-validation-for="StreetViewPitch" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsPublished" /> @Html.DisplayNameFor(model => model.IsPublished)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

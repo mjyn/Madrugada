@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Madrugada.Models.Image>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsCompare)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsCg)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Copyright)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Url)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CompareImage)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsCompare)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsCg)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Copyright)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Url)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompareImage.ImageId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ImageId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ImageId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ImageId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

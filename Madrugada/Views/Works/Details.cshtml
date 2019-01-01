@@ -1,0 +1,60 @@
+﻿@model Madrugada.Models.Work
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Work</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AlternativeName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AlternativeName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ReleaseDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ReleaseDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Cover)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Cover)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.OfficialHomepage)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.OfficialHomepage)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Company)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Company.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TagsString)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TagsString)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.WorkId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
