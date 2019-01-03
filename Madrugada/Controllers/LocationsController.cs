@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Madrugada.Data;
 using Madrugada.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Madrugada.Controllers
 {
     public class LocationsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly SignInManager<IdentityUser> _signInManager;
 
-        public LocationsController(ApplicationDbContext context)
+        public LocationsController(ApplicationDbContext context, SignInManager<IdentityUser> signInManager)
         {
             _context = context;
+            _signInManager = signInManager;
         }
 
         // GET: Locations
@@ -33,7 +36,7 @@ namespace Madrugada.Controllers
             {
                 return NotFound();
             }
-
+            
             var location = await _context.Locations
                 .Include(l => l.Work)
                 .Include(l => l.Images).ThenInclude(i => i.CompareImage)

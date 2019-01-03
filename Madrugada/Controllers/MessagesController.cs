@@ -79,35 +79,44 @@ namespace Madrugada.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PostMessage(Message msg)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                if (msg.ReplyId == null)
-                    msg.IsReply = false;
-                else if (await _context.Messages.FirstOrDefaultAsync(q => q.MessageId == msg.ReplyId) == null)
-                {
-                    ViewBag.Message = "Input invalid.";
-                    return View("ClientError");
-                }
-                else
-                {
-                    msg.IsReply = true;
-                }
-                var usr = await _userManager.GetUserAsync(HttpContext.User);
-                if (usr == null)
-                    msg.IsAnonymous = true;
-                else
-                {
-                    msg.UserId = usr.Id;
-                }
-
-                _context.Add(msg);
-                await _context.SaveChangesAsync();
-
-                //return RedirectToAction(nameof(Index));
+                ViewBag.Message = "Input invalid.";
+                return View("ClientError");
+            }
+            if (msg.ReplyId == null)
+                msg.IsReply = false;
+            else if (await _context.Messages.FirstOrDefaultAsync(q => q.MessageId == msg.ReplyId) == null)
+            {
+                ViewBag.Message = "Input invalid.";
+                return View("ClientError");
+            }
+            else
+            {
+                msg.IsReply = true;
+            }
+            var usr = await _userManager.GetUserAsync(HttpContext.User);
+            if (usr == null)
+                msg.IsAnonymous = true;
+            else
+            {
+                msg.UserId = usr.Id;
             }
             string referer = Request.Headers["Referer"].ToString();
-            ViewBag.Message = "Input invalid.";
-            return View("ClientError");
+            int locid;
+            if (int.TryParse(referer.Split('/').Last(), out locid))
+                msg.LocationId = locid;
+            else
+            {
+                ViewBag.Message = "Input invalid.";
+                return View("ClientError");
+            }
+
+
+            _context.Add(msg);
+            await _context.SaveChangesAsync();
+            var url = Url.Action("Details", "Locations", new { id = msg.LocationId });
+            return Redirect(url + "#" + msg.MessageId);
         }
 
         // GET: Messages/Edit/5
