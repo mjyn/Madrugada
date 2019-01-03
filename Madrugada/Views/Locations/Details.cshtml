@@ -129,7 +129,7 @@
                     </Text>
                 }
                 <p class="card-text">
-                    @item.Content
+                    @Html.Raw(Html.Encode(item.Content).Replace("&#xA;", "<br />"))
                 </p>
 
             </div>
