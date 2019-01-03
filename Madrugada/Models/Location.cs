@@ -29,6 +29,7 @@ namespace Madrugada.Models
         public string Address { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
+        public int Zoom { get; set; }
 
         public bool HasStreetView { get; set; }
         public double? StreetViewLatitude { get; set; }

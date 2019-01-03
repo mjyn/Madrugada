@@ -15,6 +15,10 @@ namespace Madrugada.Models
         public bool IsAnonymous { get; set; }
         public string UserId { get; set; }
 
+        [MaxLength(1000)]
+        [Required]
+        public string Content { get; set; }
+
         public int? ReplyId { get; set; }
         [ForeignKey("ReplyId")]
         public Message ReplyMessage { get; set; }

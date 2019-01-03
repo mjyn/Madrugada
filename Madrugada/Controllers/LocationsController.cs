@@ -37,13 +37,18 @@ namespace Madrugada.Controllers
             var location = await _context.Locations
                 .Include(l => l.Work)
                 .Include(l => l.Images).ThenInclude(i => i.CompareImage)
+                .Include(l => l.Messages).ThenInclude(i => i.ReplyMessage)
                 .FirstOrDefaultAsync(m => m.LocationId == id);
             if (location == null)
             {
                 return NotFound();
             }
 
-            return View(location);
+            return View(new LocationViewModel()
+            {
+                Location = location,
+                Message = new Message()
+            });
         }
 
         // GET: Locations/Create

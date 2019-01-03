@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Madrugada.Data;
 using Madrugada.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Madrugada.Controllers
 {
     public class MessagesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public MessagesController(ApplicationDbContext context)
+        public MessagesController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Messages
@@ -70,6 +73,41 @@ namespace Madrugada.Controllers
             ViewData["LocationId"] = new SelectList(_context.Locations, "LocationId", "Name", message.LocationId);
             ViewData["ReplyId"] = new SelectList(_context.Messages, "MessageId", "MessageId", message.ReplyId);
             return View(message);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PostMessage(Message msg)
+        {
+            if (ModelState.IsValid)
+            {
+                if (msg.ReplyId == null)
+                    msg.IsReply = false;
+                else if (await _context.Messages.FirstOrDefaultAsync(q => q.MessageId == msg.ReplyId) == null)
+                {
+                    ViewBag.Message = "Input invalid.";
+                    return View("ClientError");
+                }
+                else
+                {
+                    msg.IsReply = true;
+                }
+                var usr = await _userManager.GetUserAsync(HttpContext.User);
+                if (usr == null)
+                    msg.IsAnonymous = true;
+                else
+                {
+                    msg.UserId = usr.Id;
+                }
+
+                _context.Add(msg);
+                await _context.SaveChangesAsync();
+
+                //return RedirectToAction(nameof(Index));
+            }
+            string referer = Request.Headers["Referer"].ToString();
+            ViewBag.Message = "Input invalid.";
+            return View("ClientError");
         }
 
         // GET: Messages/Edit/5
