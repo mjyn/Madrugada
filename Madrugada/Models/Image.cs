@@ -13,6 +13,8 @@ namespace Madrugada.Models
         public int ImageId { get; set; }
 
         public string Name { get; set; }
+        public string UserId { get; set; }
+        public DateTime Date { get; set; }
 
         public int? LocationId { get; set; }
         [ForeignKey("LocationId")]

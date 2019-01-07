@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Compile Remove="Data\Migrations\20190102084440_LocationZoon_MessageContent.cs" />
+    <Compile Remove="Data\Migrations\20190107053838_AddUserIdToImage.cs" />
   </ItemGroup>
 
 
