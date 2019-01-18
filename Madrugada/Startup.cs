@@ -42,6 +42,7 @@ namespace Madrugada
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
+                options.User.RequireUniqueEmail = true;
             });
 
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -53,14 +54,19 @@ namespace Madrugada
                     }
                     ));
             services.AddDefaultIdentity<IdentityUser>()
+                .AddRoles<IdentityRole>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+
+
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -86,6 +92,26 @@ namespace Madrugada
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+
+            CreateRoles(serviceProvider);
+        }
+
+        private void CreateRoles(IServiceProvider serviceProvider)
+        {
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            Task<IdentityResult> roleResult;
+            string[] roles = { "Admin", "Author", "User" };
+            foreach (var item in roles)
+            {
+                Task<bool> hasAdminRole = roleManager.RoleExistsAsync(item);
+                hasAdminRole.Wait();
+                if (!hasAdminRole.Result)
+                {
+                    roleResult = roleManager.CreateAsync(new IdentityRole(item));
+                    roleResult.Wait();
+                }
+            }
         }
     }
 }
