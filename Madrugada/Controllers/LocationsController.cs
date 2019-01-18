@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Madrugada.Data;
 using Madrugada.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Madrugada.Controllers
 {
@@ -55,6 +56,7 @@ namespace Madrugada.Controllers
         }
 
         // GET: Locations/Create
+        [Authorize(Roles ="Admin, Author, User")]
         public IActionResult Create()
         {
             ViewData["WorkId"] = new SelectList(_context.Works, "WorkId", "Name");
@@ -66,6 +68,7 @@ namespace Madrugada.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Author, User")]
         public async Task<IActionResult> Create([Bind("LocationId,Name,WorkId,Text,Address,Latitude,Longitude,HasStreetView,StreetViewLatitude,StreetViewLongitude,StreetViewHeading,StreetViewPitch,IsPublished")] Location location)
         {
             if (ModelState.IsValid)
@@ -79,6 +82,7 @@ namespace Madrugada.Controllers
         }
 
         // GET: Locations/Edit/5
+        [Authorize(Roles = "Admin, Author")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -100,6 +104,7 @@ namespace Madrugada.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Author")]
         public async Task<IActionResult> Edit(int id, [Bind("LocationId,Name,WorkId,Text,Address,Latitude,Longitude,HasStreetView,StreetViewLatitude,StreetViewLongitude,StreetViewHeading,StreetViewPitch,IsPublished")] Location location)
         {
             if (id != location.LocationId)
@@ -132,6 +137,7 @@ namespace Madrugada.Controllers
         }
 
         // GET: Locations/Delete/5
+        [Authorize(Roles = "Admin, Author")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -153,6 +159,7 @@ namespace Madrugada.Controllers
         // POST: Locations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Author")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var location = await _context.Locations.FindAsync(id);
