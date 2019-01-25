@@ -16,7 +16,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" id="mainform">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -50,7 +50,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Zoom" class="control-label"></label>
-                <input asp-for="Zoom" class="form-control" />
+                <input asp-for="Zoom" class="form-control" value="5" />
                 <span asp-validation-for="Zoom" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
@@ -70,12 +70,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="StreetViewHeading" class="control-label"></label>
-                <input asp-for="StreetViewHeading" class="form-control" />
+                <input asp-for="StreetViewHeading" class="form-control" value="0" />
                 <span asp-validation-for="StreetViewHeading" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="StreetViewPitch" class="control-label"></label>
-                <input asp-for="StreetViewPitch" class="form-control" />
+                <input asp-for="StreetViewPitch" class="form-control" value="0" />
                 <span asp-validation-for="StreetViewPitch" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
@@ -90,6 +90,11 @@
     </div>
     <div class="col-md-8">
         <div id="map"></div>
+        <div class="form-group form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" id="doNotSyncStreet" /> 不通过更新地图位置坐标更新街景地图位置
+            </label>
+        </div>
         <div id="street"></div>
     </div>
 </div>
@@ -104,38 +109,67 @@
     <script>
         var markers = [];
         var panorama;
+        var map;
         var geocoder;
         // Initialize and add the map
         function initMap() {
             geocoder = new google.maps.Geocoder();
-            var map = new google.maps.Map(
+            map = new google.maps.Map(
                 document.getElementById('map'), { zoom: 5, center: { lat: 35.6693863, lng: 139.6012972 }, streetViewControl: false });
             map.addListener('zoom_changed', function () {
                 zoombox = document.getElementById('Zoom');
                 zoombox.value = map.getZoom();
             });
+
+
             map.addListener('click', function (event) {
-                for (var i = 0; i < markers.length; i++) {
-                    markers[i].setMap(null);
-                }
-                markers = [];
+                setmapmarker(event.latLng, false);
+                syncstreet(event.latLng);
+            });
 
-                
+            $("#Latitude").on('change', changelatlngbox);
+            $("#Longitude").on('change', changelatlngbox);
 
-                latbox = document.getElementById('Latitude');
-                lngbox = document.getElementById('Longitude');
-                lat = event.latLng.lat();
-                lng = event.latLng.lng();
-                latbox.value = lat;
-                lngbox.value = lng;
-                var loc = { lat: lat, lng: lng };
-                var marker = new google.maps.Marker({ position: loc, map: map });
-                markers.push(marker);
 
+        }
+        function changelatlngbox() {
+            var validator = $("#mainform").validate();
+
+
+            var islatvalid = validator.element($("#Latitude"));
+            var islngvalid = validator.element($("#Longitude"));
+            if (islatvalid && islngvalid) {
+                myLatLng = new google.maps.LatLng({ lat: parseFloat($("#Latitude").val()), lng: parseFloat($("#Longitude").val()) }); 
+                setmapmarker(myLatLng, true);
+                syncstreet(myLatLng);
+            }
+        }
+
+        function setmapmarker(latLng, setcenter) {
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].setMap(null);
+            }
+            markers = [];
+
+            lat = latLng.lat();
+            lng = latLng.lng();
+            $("#Latitude").val(lat);
+            $("#Longitude").val(lng);
+            var marker = new google.maps.Marker({ position: latLng, map: map });
+            markers.push(marker);
+            if (setcenter) {
+                map.setCenter(latLng)
+            }
+        }
+
+        //give map position to street (check syncbox status)
+        function syncstreet(latLng) {
+            syncbox = document.getElementById('doNotSyncStreet');
+            if (!syncbox.checked) {
                 if (panorama == undefined) {
                     panorama = new google.maps.StreetViewPanorama(
                         document.getElementById('street'), {
-                            position: loc,
+                            position: latLng,
                             pov: {
                                 heading: 0,
                                 pitch: 0
@@ -151,28 +185,21 @@
                     //});
 
                     panorama.addListener('position_changed', function () {
-                        slatbox = document.getElementById('StreetViewLatitude');
-                        slngbox = document.getElementById('StreetViewLongitude');
-                        slatbox.value = panorama.getPosition().lat();
-                        slngbox.value = panorama.getPosition().lng();
+                        $("#StreetViewLatitude").val(panorama.getPosition().lat());
+                        $("#StreetViewLongitude").val(panorama.getPosition().lng());
                     });
 
                     panorama.addListener('pov_changed', function () {
-                        sheadingbox = document.getElementById('StreetViewHeading');
-                        spitchbox = document.getElementById('StreetViewPitch');
-                        sheadingbox.value = Math.round(panorama.getPov().heading);
-                        spitchbox.value = Math.round(panorama.getPov().pitch);
+                        $("#StreetViewHeading").val(Math.round(panorama.getPov().heading));
+                        $("#StreetViewPitch").val(Math.round(panorama.getPov().pitch));
                     });
                 }
                 else {
-                    panorama.setPosition(event.latLng);
+                    panorama.setPosition(latLng);
                 }
-
-
-
-            });
-
+            }
         }
+
         geocodebtn = document.getElementById('GeocodingBtn');
         geocodebtn.addEventListener('click', function () {
             if (markers.length != 1) {
@@ -193,10 +220,14 @@
                     }
                 });
             }
-            
+
         });
+
+
+
+
     </script>
     @{
         await Html.RenderPartialAsync("_GoogleMapsApiPartial");
-    } 
+    }
 }
