@@ -101,7 +101,7 @@ namespace Madrugada
         {
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             Task<IdentityResult> roleResult;
-            string[] roles = { "Admin", "Author", "User" };
+            string[] roles = { "Admin", "Author" };
             foreach (var item in roles)
             {
                 Task<bool> hasAdminRole = roleManager.RoleExistsAsync(item);

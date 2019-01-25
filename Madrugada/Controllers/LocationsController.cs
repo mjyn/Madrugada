@@ -56,7 +56,6 @@ namespace Madrugada.Controllers
         }
 
         // GET: Locations/Create
-        [Authorize(Roles ="Admin, Author, User")]
         public IActionResult Create()
         {
             ViewData["WorkId"] = new SelectList(_context.Works, "WorkId", "Name");
@@ -68,8 +67,7 @@ namespace Madrugada.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, Author, User")]
-        public async Task<IActionResult> Create([Bind("LocationId,Name,WorkId,Text,Address,Latitude,Longitude,HasStreetView,StreetViewLatitude,StreetViewLongitude,StreetViewHeading,StreetViewPitch,IsPublished")] Location location)
+        public async Task<IActionResult> Create(Location location)
         {
             if (ModelState.IsValid)
             {
@@ -77,6 +75,10 @@ namespace Madrugada.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            if (location.StreetViewHeading == null)
+                location.StreetViewHeading = 0;
+            if (location.StreetViewPitch == null)
+                location.StreetViewPitch = 0;
             ViewData["WorkId"] = new SelectList(_context.Works, "WorkId", "Name", location.WorkId);
             return View(location);
         }
