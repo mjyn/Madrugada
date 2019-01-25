@@ -3,7 +3,13 @@
 @{
     ViewData["Title"] = "Create";
 }
+<style>
 
+    #map, #street {
+        height: 400px;
+        width: 100%;
+    }
+</style>
 <h1>Create</h1>
 
 <h4>Location</h4>
@@ -23,7 +29,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Text" class="control-label"></label>
-                <textarea asp-for="Text" class="form-control" />
+                <textarea asp-for="Text" class="form-control"></textarea>
                 <span asp-validation-for="Text" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -31,6 +37,7 @@
                 <input asp-for="Address" class="form-control" />
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
+            <button id="GeocodingBtn" type="button" class="btn btn-link">从地图上的标记点自动获取地址</button>
             <div class="form-group">
                 <label asp-for="Latitude" class="control-label"></label>
                 <input asp-for="Latitude" class="form-control" />
@@ -81,6 +88,10 @@
             </div>
         </form>
     </div>
+    <div class="col-md-8">
+        <div id="map"></div>
+        <div id="street"></div>
+    </div>
 </div>
 
 <div>
@@ -89,4 +100,103 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        var markers = [];
+        var panorama;
+        var geocoder;
+        // Initialize and add the map
+        function initMap() {
+            geocoder = new google.maps.Geocoder();
+            var map = new google.maps.Map(
+                document.getElementById('map'), { zoom: 5, center: { lat: 35.6693863, lng: 139.6012972 }, streetViewControl: false });
+            map.addListener('zoom_changed', function () {
+                zoombox = document.getElementById('Zoom');
+                zoombox.value = map.getZoom();
+            });
+            map.addListener('click', function (event) {
+                for (var i = 0; i < markers.length; i++) {
+                    markers[i].setMap(null);
+                }
+                markers = [];
+
+                
+
+                latbox = document.getElementById('Latitude');
+                lngbox = document.getElementById('Longitude');
+                lat = event.latLng.lat();
+                lng = event.latLng.lng();
+                latbox.value = lat;
+                lngbox.value = lng;
+                var loc = { lat: lat, lng: lng };
+                var marker = new google.maps.Marker({ position: loc, map: map });
+                markers.push(marker);
+
+                if (panorama == undefined) {
+                    panorama = new google.maps.StreetViewPanorama(
+                        document.getElementById('street'), {
+                            position: loc,
+                            pov: {
+                                heading: 0,
+                                pitch: 0
+                            }
+                        });
+
+                    //panorama.addListener('pano_changed', function () {
+                    //    panorama.getPano();
+                    //});
+
+                    //panorama.addListener('links_changed', function () {
+                    //    var links = panorama.getLinks();
+                    //});
+
+                    panorama.addListener('position_changed', function () {
+                        slatbox = document.getElementById('StreetViewLatitude');
+                        slngbox = document.getElementById('StreetViewLongitude');
+                        slatbox.value = panorama.getPosition().lat();
+                        slngbox.value = panorama.getPosition().lng();
+                    });
+
+                    panorama.addListener('pov_changed', function () {
+                        sheadingbox = document.getElementById('StreetViewHeading');
+                        spitchbox = document.getElementById('StreetViewPitch');
+                        sheadingbox.value = Math.round(panorama.getPov().heading);
+                        spitchbox.value = Math.round(panorama.getPov().pitch);
+                    });
+                }
+                else {
+                    panorama.setPosition(event.latLng);
+                }
+
+
+
+            });
+
+        }
+        geocodebtn = document.getElementById('GeocodingBtn');
+        geocodebtn.addEventListener('click', function () {
+            if (markers.length != 1) {
+                alert("地图上没有标记点");
+            }
+            else {
+                geocoder.geocode({
+                    'latLng': markers[0].position
+                }, function (results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        if (results[0]) {
+                            addressbox = document.getElementById('Address');
+                            addressbox.value = results[0].formatted_address;
+                        }
+                    }
+                    else {
+                        alert("获取地址失败");
+                    }
+                });
+            }
+            
+        });
+    </script>
+    @{
+        await Html.RenderPartialAsync("_GoogleMapsApiPartial");
+    } 
 }

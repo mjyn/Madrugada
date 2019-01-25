@@ -184,12 +184,9 @@
 
 
 
-    <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=@Environment.GetEnvironmentVariables()["GoogleMapAPIKey"]&callback=initMap">
-    </script>
-
 
     @{
+        await Html.RenderPartialAsync("_GoogleMapsApiPartial");
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
         await Html.RenderPartialAsync("_jQueryScriptsPartial");
         await Html.RenderPartialAsync("_ShowdownScriptsPartial");
