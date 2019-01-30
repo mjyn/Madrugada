@@ -27,6 +27,10 @@ namespace Madrugada.Controllers
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Locations.Include(l => l.Work);
+
+            var rqf = Request.HttpContext.Features.Get<Microsoft.AspNetCore.Localization.IRequestCultureFeature>();
+            // Culture contains the information of the requested culture
+            var culture = rqf.RequestCulture.Culture;
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -48,7 +52,7 @@ namespace Madrugada.Controllers
                 return NotFound();
             }
 
-            return View(new LocationViewModel()
+            return View(new ViewModels.LocationDetail()
             {
                 Location = location,
                 Message = new Message()

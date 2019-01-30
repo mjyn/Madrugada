@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Madrugada.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Madrugada.Models
+namespace Madrugada.ViewModels
 {
-    public class LocationViewModel
+    public class LocationDetail
     {
         public Location Location { get; set; }
         public Message Message { get; set; }

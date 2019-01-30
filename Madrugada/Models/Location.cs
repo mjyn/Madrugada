@@ -19,26 +19,34 @@ namespace Madrugada.Models
 
         public int? WorkId { get; set; }
         [ForeignKey("WorkId")]
+        [DisplayName("Work title")]
         public Work Work { get; set; }
 
         [MaxLength(5000)]
         public string Text { get; set; }
 
         [MaxLength(300)]
-        [DisplayName("地址")]
+        [DisplayName("Address")]
         public string Address { get; set; }
         [Range(-90, 90)]
+        [DisplayName("Latitude")]
         public double Latitude { get; set; }
         [Range(-180, 180)]
+        [DisplayName("Longitude")]
         public double Longitude { get; set; }
+        [DisplayName("Map zoom")]
         public int Zoom { get; set; }
-
+        [DisplayName("Has street view")]
         public bool HasStreetView { get; set; }
         [Range(-90, 90)]
+        [DisplayName("Street view latitude")]
         public double? StreetViewLatitude { get; set; }
         [Range(-180, 180)]
+        [DisplayName("Street view longitude")]
         public double? StreetViewLongitude { get; set; }
+        [DisplayName("Street view heading")]
         public int? StreetViewHeading { get; set; }
+        [DisplayName("Street view pitch")]
         public int? StreetViewPitch { get; set; }
 
         [InverseProperty("Location")]
@@ -46,7 +54,7 @@ namespace Madrugada.Models
 
         [InverseProperty("Location")]
         public List<Message> Messages { get; set; }
-
+        [DisplayName("")]
         public bool IsPublished { get; set; }
     }
 }
