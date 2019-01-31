@@ -117,34 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Address" xml:space="preserve">
-    <value>地址</value>
+  <data name="BackToList" xml:space="preserve">
+    <value>返回列表</value>
   </data>
-  <data name="HasStreetView" xml:space="preserve">
-    <value>包含街景</value>
+  <data name="Edit" xml:space="preserve">
+    <value>编辑</value>
   </data>
-  <data name="Latitude" xml:space="preserve">
-    <value>纬度</value>
-  </data>
-  <data name="Longitude" xml:space="preserve">
-    <value>经度</value>
-  </data>
-  <data name="StreetViewHeading" xml:space="preserve">
-    <value>街景朝向</value>
-  </data>
-  <data name="StreetViewLatitude" xml:space="preserve">
-    <value>街景纬度</value>
-  </data>
-  <data name="StreetViewLongitude" xml:space="preserve">
-    <value>街景经度</value>
-  </data>
-  <data name="StreetViewPitch" xml:space="preserve">
-    <value>街景俯仰</value>
-  </data>
-  <data name="Work" xml:space="preserve">
-    <value>作品标题</value>
-  </data>
-  <data name="Zoom" xml:space="preserve">
-    <value>地图放大级别</value>
+  <data name="Submit" xml:space="preserve">
+    <value>提交</value>
   </data>
 </root>

@@ -19,7 +19,7 @@ namespace Madrugada.Models
 
         public int? WorkId { get; set; }
         [ForeignKey("WorkId")]
-        [DisplayName("Work title")]
+        [DisplayName("Work")]
         public Work Work { get; set; }
 
         [MaxLength(5000)]
@@ -34,19 +34,19 @@ namespace Madrugada.Models
         [Range(-180, 180)]
         [DisplayName("Longitude")]
         public double Longitude { get; set; }
-        [DisplayName("Map zoom")]
+        [DisplayName("Zoom")]
         public int Zoom { get; set; }
-        [DisplayName("Has street view")]
+        [DisplayName("HasStreetView")]
         public bool HasStreetView { get; set; }
         [Range(-90, 90)]
-        [DisplayName("Street view latitude")]
+        [DisplayName("StreetViewLatitude")]
         public double? StreetViewLatitude { get; set; }
         [Range(-180, 180)]
-        [DisplayName("Street view longitude")]
+        [DisplayName("StreetViewLongitude")]
         public double? StreetViewLongitude { get; set; }
-        [DisplayName("Street view heading")]
+        [DisplayName("StreetViewHeading")]
         public int? StreetViewHeading { get; set; }
-        [DisplayName("Street view pitch")]
+        [DisplayName("StreetViewPitch")]
         public int? StreetViewPitch { get; set; }
 
         [InverseProperty("Location")]
