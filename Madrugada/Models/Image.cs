@@ -26,6 +26,8 @@ namespace Madrugada.Models
         public string Copyright { get; set; }
 
         public string Url { get; set; }
+        public bool HasThumbnail { get; set; }
+        public string ThumbUrl { get; set; }
 
         public int? CompareId { get; set; }
         [ForeignKey("CompareId")]

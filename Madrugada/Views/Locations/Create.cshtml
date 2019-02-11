@@ -1,7 +1,13 @@
-﻿@model Madrugada.Models.Location
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Localization
+
+@model Madrugada.Models.Location
+
+@inject IViewLocalizer Localizer
+@inject IStringLocalizer<Madrugada.Localization.GlobalSharedResource> GlobalSharedLocalizer
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = Localizer["CreateLocation"];
 }
 <style>
 
@@ -10,9 +16,8 @@
         width: 100%;
     }
 </style>
-<h1>Create</h1>
 
-<h4>Location</h4>
+<h4>@Localizer["CreateLocation"]</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -37,7 +42,7 @@
                 <input asp-for="Address" class="form-control" />
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
-            <button id="GeocodingBtn" type="button" class="btn btn-link">从地图上的标记点自动获取地址</button>
+            <button id="GeocodingBtn" type="button" class="btn btn-link">@Localizer["Geocode"]</button>
             <div class="form-group">
                 <label asp-for="Latitude" class="control-label"></label>
                 <input asp-for="Latitude" class="form-control" />
@@ -84,7 +89,7 @@
                 </label>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="@GlobalSharedLocalizer["Submit"]" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -95,12 +100,12 @@
                 <input class="form-check-input" type="checkbox" id="doNotSyncStreet" /> 不通过更新地图位置坐标更新街景地图位置
             </label>
         </div>
-        <div id="street">点击地图以显示街景</div>
+        <div id="street">@Localizer["ClickMapForStreet"]</div>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">@GlobalSharedLocalizer["BackToList"]</a>
 </div>
 
 @section Scripts {
@@ -139,7 +144,7 @@
             var islatvalid = validator.element($("#Latitude"));
             var islngvalid = validator.element($("#Longitude"));
             if (islatvalid && islngvalid) {
-                myLatLng = new google.maps.LatLng({ lat: parseFloat($("#Latitude").val()), lng: parseFloat($("#Longitude").val()) }); 
+                myLatLng = new google.maps.LatLng({ lat: parseFloat($("#Latitude").val()), lng: parseFloat($("#Longitude").val()) });
                 setmapmarker(myLatLng, true);
                 syncstreet(myLatLng);
             }
@@ -203,7 +208,7 @@
         geocodebtn = document.getElementById('GeocodingBtn');
         geocodebtn.addEventListener('click', function () {
             if (markers.length != 1) {
-                alert("地图上没有标记点");
+                alert("@Localizer["NoMarker"]");
             }
             else {
                 geocoder.geocode({
@@ -216,7 +221,7 @@
                         }
                     }
                     else {
-                        alert("获取地址失败");
+                        alert("@Localizer["GeocodeFailed"]");
                     }
                 });
             }

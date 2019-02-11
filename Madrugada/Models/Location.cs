@@ -15,6 +15,7 @@ namespace Madrugada.Models
 
         [Required]
         [MaxLength(100)]
+        [DisplayName("Name")]
         public string Name { get; set; }
 
         public int? WorkId { get; set; }
@@ -52,9 +53,19 @@ namespace Madrugada.Models
         [InverseProperty("Location")]
         public List<Image> Images { get; set; }
 
+        public int? CoverImageId { get; set; }
+        [ForeignKey("CoverImageId")]
+        public Image CoverImage { get; set; }
+
+
+
         [InverseProperty("Location")]
         public List<Message> Messages { get; set; }
-        [DisplayName("")]
+        [DisplayName("IsPublished")]
         public bool IsPublished { get; set; }
+        //点击数
+        public int Views { get; set; }
+        [DisplayName("LastUpdate")]
+        public DateTime LastUpdate { get; set; }
     }
 }

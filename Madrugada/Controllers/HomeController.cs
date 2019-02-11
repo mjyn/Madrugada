@@ -5,14 +5,27 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Madrugada.Models;
+using Madrugada.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Madrugada.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ApplicationDbContext _context;
+        public HomeController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
         public IActionResult Index()
         {
-            return View();
+            var model = new ViewModels.Home.Index();
+            model.RecentlyUpdatedLocations = _context.Locations.Include(q => q.CoverImage).OrderByDescending(q => q.LastUpdate).Take(5).ToList();
+
+            //临时措施
+            model.FeaturedLocations = _context.Locations.Include(q => q.CoverImage).Take(5).ToList();
+            model.FeaturedWorks = _context.Works.Take(5).ToList();
+            return View(model);
         }
 
         public IActionResult Privacy()
